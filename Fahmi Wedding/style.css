@@ -1,0 +1,632 @@
+/* Variable Colors */
+:root {
+    --pink: #f14e95;
+    --bg: white;
+    --text-color: #333333;
+    --shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* General Styles */
+body {
+    font-size: 1.2rem;
+    font-family: 'Work Sans', sans-serif;
+    min-height: 5000px;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg);
+    color: var(--text-color);
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    padding: 1.5rem;
+    width: 100%;
+    z-index: 1;
+}
+.hero h2, 
+.hero h4, 
+.hero p {
+    text-shadow: var(--shadow);
+    margin: 0.5rem 0;
+    font-weight: bold;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-image: url('img/alvin-mahmudov-9_XfcBxf_uo-unsplash.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Efek gelap transparan */
+    z-index: -1;
+}
+
+
+.hero h2 {
+    font-family: "Sacramento", cursive;
+    font-size: 4rem;
+    color: var(--pink);
+}
+
+.hero h4 {
+    font-size: 1.5rem;
+    color: black;
+    text-align:center;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+.hero a {
+    color: var(--pink);
+    background-color: white;
+    margin-top: 2rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    box-shadow: var(--shadow);
+}
+
+.hero a:hover {
+    background-color: var(--pink) ;
+    color: white;
+    box-shadow: none;
+}
+
+/* Navbar */
+.mynavbar {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(3px);
+}
+
+.mynavbar .offcanvas {
+    height: 100vh;
+}
+
+.mynavbar .navbar-brand,
+.mynavbar .offcanvas-title {
+    font-family: "Sacramento", serif;
+    font-size: 3rem;
+    font-weight: bold;
+    color: (black);
+}
+
+.mynavbar .nav-link {
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: (black);
+}
+
+/* Home Section */
+.home {
+    background-color: white;
+    background-size: cover;
+    min-height: 100vh;
+    margin-top: -6rem;
+    padding-top: 15rem;
+    padding-bottom: 5rem;
+    text-align: center;
+}
+
+.home h2,
+.info h2, 
+.story h2, 
+.gallery h2,
+.rsvp h2,
+.gifts h2 {
+    color: var(--pink);
+    font-size: 5rem;
+    font-weight: bold;
+    font-family: "Sacramento", serif;
+}
+
+.home h3 {
+    color: palevioletred;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+}
+
+.home p {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: maroon;
+    font-weight: bold;
+}
+
+.home .couple {
+    margin-top: 100px;
+}
+
+.home .couple h3 {
+    font-family: "Sacramento", cursive;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--pink);
+    margin-top: 10px;
+}
+
+.home .couple img {
+    width: 100%;
+}
+
+.home .heart {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.home .heart i {
+    margin: auto;
+    margin-top: auto;
+    color: var(--pink);
+}
+
+.img-responsive {
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    object-fit: cover; /* Menampilkan seluruh gambar tanpa pemotongan */
+    display: block;
+}
+
+
+.info {
+    background-color: black;
+    color: white;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.info .alamat {
+    font-size: 1.5rem;
+}
+
+.info .description {
+    font-size: 1.4rem;
+    font-size: 400;
+}
+
+.info .card {
+    background-color: rgba(255,255, 255, 0.2) !important;
+    color: white !important;
+    border: 1px solid #999;
+}
+
+.info .card-header {
+    border-bottom: 1px solid #999;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+}
+
+.info .card-body {
+    font-size: 1.5rem;
+}
+
+.info .card-footer {
+    border-top: 1px solid #999;
+    font-weight: 200;
+    font-size: 1.5rem;
+}
+
+.info a {
+    font-size: 1.3rem;
+}
+
+.story,
+.gallery,
+.rsvp,
+.gifts {
+    padding-top: 10rem;
+    padding-bottom: 8rem;
+    text-align: left;
+}
+.story {
+    background-image:url(img/5.jpg);
+    background-position: 50%;   
+    background-size: cover;
+}
+.gallery {
+    background-image: url(img/veri-ivanova-whOkVvf0_hU-unsplash.jpg) ;
+    background-position: 50%;
+    background-size: cover;
+}
+
+.story span,
+.gallery span,
+.gifts span {
+    text-transform: uppercase;
+    color:#666;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.story p, 
+.gallery p,
+.rsvp p,
+.gifts p {
+    font-weight: 300;
+    font-size: 1rem;
+}
+
+.gifts {
+    background-color: white;
+}
+
+.timeline {
+    list-style: none;
+    padding: 1.3rem 0;
+    position: relative;
+    margin-top: 1rem;
+}
+
+.timeline::before {
+    content: '';
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    width: 1px;
+    background-color: #666;
+    left: 50%;
+}
+
+.timeline li {
+    padding: 2rem 0;
+    width: 88.5%;
+    position: relative;
+}
+
+.timeline li::before,
+.timeline li::after {
+    content: '';
+    display: table;
+}
+
+.timeline li::after {
+    clear: both;
+}
+
+.timeline li .timeline-image {
+    width: 150px;
+    height: 150px;
+    background-color: #666;
+    position:absolute;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%, -50%);
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.timeline li .timeline-panel {
+    width: 45%;
+    float: left;
+    border: 1px solid #666; 
+    padding: 1.5rem;
+    position: relative;
+    border-radius: 10px;
+    background-color: white;
+    z-index: 5;
+}
+
+.timeline li .timeline-panel::before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    border-top: 14px solid transparent;
+    border-left: 14px solid black;
+    border-right: 0 solid black;
+    border-bottom: 14px solid transparent;
+    top: 40%;
+    right: -13px;
+}
+
+.timeline li .timeline-panel::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    border-top: 14px solid transparent;
+    border-left: 14px solid white;
+    border-right: 0 solid white;
+    border-bottom: 14px solid transparent;
+    top: 41%;
+    right: -13px;
+}
+
+.timeline li.timeline-inverted .timeline-panel {
+    float: right;
+    position: relative;
+}
+
+.timeline li.timeline-inverted .timeline-panel::before {
+    border-left-width: 0;
+    border-right-width: 15px;
+    left: -15px;
+    right: auto;
+}
+
+.timeline li.timeline-inverted .timeline-panel::after {
+    border-left-width: 0;
+    border-right-width: 14px;
+    left: -13px;
+    right: auto;
+}
+
+.gallery {
+    background-color: #f5f5f5;
+}
+
+.rsvp {
+    background-color: black;
+}
+
+.rsvp h2 {
+    font-size: 4.3rem;
+}
+
+.rsvp p {
+    color: white;
+}
+
+.rsvp form label {
+    color: white;
+
+}
+
+.rsvp button {
+    background-color: var(--pink);
+    color: white;
+    border: 1px solid var(--pink);
+}
+
+.rsvp button {
+    background-color: var(--pink);
+    color: white;
+    border: 1px solid var(--pink);
+}
+
+footer {
+    padding: 3rem;
+    background-color: var(--pink);
+    color: black;
+}
+
+footer a {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: white;
+}
+
+footer li {
+    list-style: none;
+    display: inline;
+    margin: 0.5rem;
+}
+
+.audio-icon-wrapper {
+    width: 3rem;
+    height: 3rem;
+    font-size: 5rem;
+    position: fixed;
+    bottom: 3rem;
+    right: 2rem;
+    cursor: pointer;
+    color: white;
+    opacity: 0.5;
+    mix-blend-mode: difference;
+    animation: rotating 4s linear infinite;
+    transform-origin: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 0;
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0);
+    }
+     
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+/* Media Query for Responsiveness */
+/* extra*/
+@media (max-width: 1200px) {
+   .home .heart {
+    transform: translateX(-50%) translateY(-50%);
+   }
+}
+
+/* Laptop */
+@media (max-width: 992px) {
+    html {
+        font-size: 85%;
+    }
+
+    .hero h2 {
+        font-size: 3rem;
+    }
+
+    .home h2 {
+        font-size: 3.5rem;
+    }
+
+    .home .heart {
+        display: none;
+       }
+
+    .timeline::before {
+        left: 60;
+    }
+
+    .timeline li .timeline-image {
+        left: 15px;
+        margin-left: 45px;
+        top: 15px;
+    }
+
+    .timeline li .timeline-panel {
+        width: calc((100%-200%));
+        float: right;
+    }
+
+    .timeline li .timeline-panel::before {
+        border-left-width: 0;
+        border-right-width: 15px;
+        left: -15px;
+        right: auto;
+      }
+    .timeline li .timeline-panel::after {
+        border-left-width: 0;
+        border-right-width: 14px;
+        left: -13px;
+        right: auto;
+      }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    html {
+        font-size: 75%;
+    }
+
+    .mynavbar .nav-link {
+        font-size: 0.9rem;
+    }
+
+    .sticky-top {
+        overflow: hidden;
+    }
+
+    .hero h2 {
+        font-size: 2.8rem;
+    }
+
+    .hero a {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .home .heart {
+        width: 45px;
+        height: 45px;
+        top: -22px;
+        left: 50%;
+    }
+
+    .home .heart i {
+        font-size: 20px;
+    }
+
+    .timeline li .timeline-image {
+        width: 130px;
+        height: 130px;
+    }
+}
+
+/* Smartphone */
+@media (max-width: 768px) {
+    html {
+        font-size: 70%;
+    }
+
+    .hero {
+        padding: 1rem;
+    }
+
+    .hero h2 {
+        font-size: 3rem;
+    }
+
+    .hero h4 {
+        font-size: 1.2rem;
+        color: black;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .hero a {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .home h2 {
+        font-size: 5rem;
+    }
+
+    .home h3 {
+        font-size: 2rem;
+    }
+
+    .home p {
+        font-size: 1.5rem;
+    }
+
+    .home .heart {
+        width: 40px;
+        height: 40px;
+        top: -20px; /* Sesuaikan posisi */
+    }
+
+    .home .heart i {
+        font-size: 18px; /* Perkecil agar proporsional */
+    }
+
+    .timeline li .timeline-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .timeline li .timeline-panel::before {
+        top: 30px;
+    }
+    .timeline li .timeline-panel::after {
+        top: 31px;
+    }
+}

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>  </title>
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;700&display=swap" rel="stylesheet">
+
+        <!--Feather icon-->
+        <script src="https://unpkg.com/feather-icons"></script>
+
+        <!--my style-->
+        <link rel="stylesheet" href="style.css">
+
+        <!--alpine js-->
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+        <!--app-->
+        <script src="app.js" async></script>
+        <script type="text/javascript"
+        src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="SB-Mid-client-DJCRKHod1d3yCLhg"></script>
+    </head>
+    <body>
+
+        <!--Navbar-->
+        <nav class="navbar" x-data>
+            <a href="#" class="navbar-logo"> Latté<span>Luxe</span>.</a>
+
+            <div class="navbar-nav">
+                <a href="#home"> Home </a>
+                <a href="#about"> Tentang Kami </a>
+                 <a href="#menu"> Menu </a>
+                 <a href="#products"> Produk </a>
+                <a href="#contact"> Kontak </a>          
+            </div>
+
+            <div class="navbar-extra">
+                <a href="#" id="search-button"> <i data-feather="search"></i></a>
+                <a href="#" id="shopping-button"> 
+                    <i data-feather="shopping-cart"></i>
+                    <span class="quantity-badge" x-text="$store.cart.quantity"></span>
+                </a>
+                <a href="#" id="hamburger-menu"> <i data-feather="menu"></i></a>
+            </div>
+
+        <!--Search-->
+        <div class="search-form">
+            <input type="search" id="search-box" placeholder="search here..">
+            <label for="search-box"><i data-feather="search"></i></label>
+        </div>
+       <!-- Shopping Cart -->
+<div class="shopping-cart p-4 bg-gray-900 text-white rounded-lg shadow-lg space-y-4" x-data="$store.cart">
+  <template x-for="(item, index) in items" :key="index">
+    <div class="cart-item flex items-center gap-4 bg-gray-800 p-3 rounded-md">
+      <img class="w-16 h-16 object-cover rounded" :src="'Menu Kopi Talk 2/' + item.img" :alt="item.name">
+
+      <div class="item-detail flex-1">
+        <h3 class="text-lg font-semibold" x-text="item.name"></h3>
+        <div class="flex items-center gap-2 text-sm mt-1">
+          <span x-text="rupiah(item.price)"></span> &times;
+
+          <button @click="remove(item.id)" class="px-2 bg-red-600 hover:bg-red-700 text-white rounded">&minus;</button>
+
+          <span x-text="item.quantity"></span>
+
+          <button @click="add(item)" class="px-2 bg-green-600 hover:bg-green-700 text-white rounded">&plus;</button>
+
+          &equals;
+          <span x-text="rupiah(item.total)"></span>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Cart Status -->
+  <h4 x-show="!items.length" class="text-center text-gray-400">Shopping cart is empty</h4>
+  <h4 x-show="items.length" class="text-right text-xl font-semibold mt-4">
+    Total: <span x-text="rupiah(total)"></span>
+  </h4>
+
+  <!-- Checkout Form -->
+ <div x-data="checkout" class="form-container" x-show="true">
+  <form @submit.prevent="handleCheckout">
+    <input type="hidden" :value="JSON.stringify(cartItems)">
+    <input type="hidden" :value="total">
+
+    <h2 class="text-lg font-bold mb-4">Checkout</h2>
+
+    <label>
+      <span>Nama</span>
+      <input type="text" x-model="name" placeholder="Nama" required>
+    </label>
+
+    <label>
+      <span>Email</span>
+      <input type="email" x-model="email" placeholder="Email" required>
+    </label>
+
+    <label>
+      <span>No. HP</span>
+      <input type="number" x-model="phone" placeholder="08xxxx" required>
+    </label>
+
+    <label>
+      <span>Metode Pembayaran</span>
+      <select x-model="payment_method" required>
+        <option value="">-- Pilih --</option>
+        <option value="whatsapp">WhatsApp Checkout</option>
+        <option value="transfer">Transfer Bank</option>
+        <option value="qris">QRIS</option>
+        <option value="cod">Bayar di Tempat (COD)</option>
+      </select>
+    </label>
+
+    <template x-if="payment_method === 'cod'">
+      <label>
+        <span>Alamat Pengiriman</span>
+        <textarea x-model="alamat" placeholder="Masukkan alamat lengkap..."></textarea>
+      </label>
+    </template>
+
+    <button type="submit">Checkout Sekarang</button>
+  </form>
+
+  <!-- Output Pembayaran -->
+  <div class="result-box" x-show="showResult">
+    <template x-if="payment_method === 'transfer'">
+      <div>
+        <h3 class="font-bold">Transfer Bank</h3>
+        <p>Silakan transfer ke rekening:</p>
+        <p><strong>BCA: 1234567890 a.n. Kopi Talk</strong></p>
+        <img src="img/barcode-bca.png" alt="Barcode Transfer" width="150">
+      </div>
+    </template>
+
+    <template x-if="payment_method === 'qris'">
+      <div>
+        <h3 class="font-bold">Pembayaran QRIS</h3>
+        <img src="img/qris-code.png" alt="QRIS Code" width="150">
+        <p>Kode: <strong>#QRIS2025</strong></p>
+      </div>
+    </template>
+
+    <template x-if="payment_method === 'cod'">
+      <div>
+        <h3 class="font-bold">COD - Bayar di Tempat</h3>
+        <p>Alamat kamu:</p>
+        <p x-text="alamat"></p>
+      </div>
+    </template>
+
+    <template x-if="payment_method === 'whatsapp'">
+      <div>
+        <h3 class="font-bold">Checkout via WhatsApp</h3>
+        <a :href="whatsappLink" target="_blank" class="text-green-400 underline">Klik untuk kirim via WhatsApp</a>
+      </div>
+    </template>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('checkout', () => ({
+      name: '',
+      email: '',
+      phone: '',
+      alamat: '',
+      payment_method: '',
+      showResult: false,
+
+      cartItems: [
+        { name: 'Kopi Latte', quantity: 2, total: 30000 },
+        { name: 'Cappuccino', quantity: 1, total: 15000 },
+      ],
+
+      get total() {
+        return this.cartItems.reduce((sum, item) => sum + item.total, 0);
+      },
+
+      get whatsappLink() {
+        const itemList = this.cartItems.map(i => `• ${i.name} (${i.quantity}x) = ${this.formatRupiah(i.total)}`).join('\n');
+        return `https://wa.me/6281234567890?text=${encodeURIComponent(
+          `Halo, saya ingin pesan:\n${itemList}\n\nTotal: ${this.formatRupiah(this.total)}\nNama: ${this.name}\nHP: ${this.phone}`
+        )}`;
+      },
+
+      handleCheckout() {
+        if (!this.name || !this.email || !this.phone || !this.payment_method) {
+          alert('Harap isi semua data');
+          return;
+        }
+
+        this.showResult = true;
+
+        if (this.payment_method === 'whatsapp') {
+          window.open(this.whatsappLink, '_blank');
+        }
+      },
+
+      formatRupiah(value) {
+        return new Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR'
+        }).format(value);
+      }
+    }))
+  });
+</script>
+</nav>
+        <!--Navbar end-->
+
+        <!--hero section start-->
+        <section class="hero" id="home">
+            <main class="content">
+                <h1> Mari kita nikmati <span> Kopi </span></h1>
+                <p> Ada harga ada kualitas! </p>
+            </main>
+        </section>
+
+        <!--about section start-->
+        <section id="about" class="about">
+            <h2><span> Tentang </span> Kami </h2>
+            <div class="row">
+                <div class="about-img">
+                <img src="Menu Kopi Talk/dani-ZLqxSzvVr7I-unsplash.jpg" alt= "Tentang Kami">
+                </div>
+                <div class="content">
+                    <h3> Coffelatte </h3>
+                    <p> Kopi ini kita buat dengan bahan susu, bubuk kopi, dan  whipped cream </p>
+                </div>
+        </section>
+
+        <!--Menu section start-->
+        <section id="menu" class="menu">
+        <h2><span> Menu </span> Kami </h2>
+        <p> Berikut adalah menu-menu di Latté Luxe dengan berbagai macam kopi dan serta tersedia makanan </p>
+        
+        <div class="row">
+        <div class="menu-card">
+        <img src="Menu Kopi Talk/amirali-mirhashemian-sc5sTPMrVfk-unsplash.jpg" alt="Espresso" class="menu-card-img">
+        <h3 class="menu-card-title"> Burger </h3>
+        <p class="menu-card-price"> Idr 15k </p>
+        </div>
+        <div class="menu-card">
+        <img src="Menu Kopi Talk/aurela-redenica-R2BrrSjOQps-unsplash.jpg" alt="Espresso" class="menu-card-img">
+        <h3 class="menu-card-title"> Ice Cream </h3>
+        <p class="menu-card-price"> Idr 10k </p>
+        </div>
+        <div class="menu-card">
+        <img src="Menu Kopi Talk/keith-brian-de-leon-1EV6hDgDpFM-unsplash.jpg" alt="Espresso" class="menu-card-img">
+        <h3 class="menu-card-title"> Caramel Macchiato </h3>
+        <p class="menu-card-price"> Idr 28k </p>
+        </div>
+        <div class="menu-card">
+        <img src="Menu Kopi Talk/food-photographer-jennifer-pallian-QsGtVwWStI8-unsplash.jpg" alt="Espresso" class="menu-card-img">
+        <h3 class="menu-card-title"> Bread </h3>
+        <p class="menu-card-price"> Idr 20k </p>
+        </div>
+        </div>
+    </section>
+
+    <!--Product section start-->
+    <section class="products" id="products" x-data="dropdown">
+    <h2><span> Produk Unggulan </span> Kami </h2>
+    <P> Tersedia produk unggulan kami </P>
+    
+    <div class="row">
+        <template x-for="(item, index) in items" x-key="index">
+        <div class="products-cards">
+        <div class="products-icons">
+            <a href="#" @click.prevent="$store.cart.add(item)">
+                <svg
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <use href="Feather/feather-sprite.svg#shopping-cart"></use>
+              </svg>
+              </a>
+              </svg>
+            </a>
+        </div>
+        <div class="products-image">
+            <img :src="`Menu Kopi Talk 2/${item.img}`" :alt="item.name">
+        </div>
+        <div class="products-content">
+            <h3 x-text="item.name"> </h3>
+            <div class="product-stars">
+                <svg
+                width="24"
+                height="24"
+                fill="currentColor"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <use href="Feather/feather-sprite.svg#star"></use>
+              </svg>
+              <svg
+              width="24"
+              height="24"
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <use href="Feather/feather-sprite.svg#star"></use>
+            </svg> <svg
+            width="24"
+            height="24"
+            fill="currentColor"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <use href="Feather/feather-sprite.svg#star"></use>
+          </svg> <svg
+          width="24"
+          height="24"
+          fill="currentColor"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <use href="Feather/feather-sprite.svg#star"></use>
+        </svg> <svg
+        width="24"
+        height="24"
+        fill="currentColor"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <use href="Feather/feather-sprite.svg#star"></use>
+      </svg>
+            </div>
+            <div class="products-price"><span x-text="rupiah (item.price)"></span>
+            </div>
+             </div>
+        </div>
+    </template>
+    </div>
+    </section>
+
+    <!--Contact section start-->
+    <section id="contact" class="contact">
+        <section id="Menu" class="menu">
+            <h2><span> Kontak </span> Kami </h2>
+            <p> Bisa hubungi Contact di bawah dan terdapat maps lokasi </p>
+
+    <div class="row">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.831076842225!2d106.99099147441082!3d-6.285923161526239!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698df08afaf3b7%3A0xb1860c7acdacf086!2sWarung%20Fahmi!5e0!3m2!1sid!2sid!4v1735713609340!5m2!1sid!2sid" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class ="map"></iframe>
+        <form action="">
+        <div class="inputgrup">
+            <i data-feather="user"></i>
+            <input type="text" placeholder="nama">
+        </div>
+        <div class="inputgrup">
+            <i data-feather="mail"></i>
+            <input type="text" placeholder="email">
+        </div>
+        <div class="inputgrup">
+            <i data-feather="phone"></i>
+            <input type="text" placeholder="no hp">
+        </div>
+        <button type="submit" class="btn"> Kirim </button>
+        </form>
+
+        </div>        
+    </section>
+
+       <!--Footer-->
+       <footer>
+        <div class="social">
+         <a href="https://www.instagram.com/mfahmiii._"><i data-feather="instagram"></i></a>
+        </div>
+
+        <div class="links">
+           <a href="#home"> Home </a>
+           <a href="#about"> Tentang Kami </a>
+           <a href="#menu"> Menu </a>
+           <a href="#contact"> Kontak Kami </a>
+           <a href="#products"> Produk </a>
+        </div>
+
+        <div class="credit">
+            <p> Created by <a href=""> Fahmi. </a>| &copy; 2025</p>
+        </div>
+       </footer>
+       
+       <!--Modal box item-->
+       <div class="modal" id="item-modal"> 
+        <div class="modal-container">
+            <a href="#" class="close-icon"><i data-feather="x"></i></a>
+            <div class="modal-content">
+                <img src="Menu Kopi Talk/muh-yusuf-syahputra-jqYEZxU5Sxo-unsplash.jpg" alt="Product1">
+                <div class="product-content">
+                    <h3>Product1</h3>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veritatis, nesciunt. Id consequuntur vel hic possimus nihil! Cumque ipsam iure odit iste. Expedita unde dicta eos ratione facilis sint vitae cupiditate.</p>
+                    <div class="products-stars">
+                        <i data-feather="star" class="starsss"></i> 
+                        <i data-feather="star" class="starsss"></i> 
+                        <i data-feather="star" class="starsss"></i> 
+                        <i data-feather="star" class="starsss "></i> 
+                        <i data-feather="star" class="starsss"></i>
+                     </div>
+                     <div class="products-price"> 20k
+                     </div>
+                     <a href="#"><i data-feather="shopping-cart"></i> <span>add to cart</span></a>
+                </div>
+            </div>
+        </div>
+       </div>
+
+      <!-- Tambahkan Feather Icons di dalam <head> -->
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+
+    <!-- Feather Icons -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof feather !== "undefined") {
+          feather.replace();
+        } else {
+          console.error("Feather Icons gagal dimuat.");
+        }
+      });
+    </script>
+
+</body>
+</html>
+
+       
+ <!--Javascript-->
+ <script src="script.js"></script>
+</body>
+</html>

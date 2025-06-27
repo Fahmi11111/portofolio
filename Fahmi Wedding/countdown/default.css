@@ -1,0 +1,109 @@
+/**
+* Project : simply-countdown
+* File : simplyCountdown.theme.default
+* Author : Vincent Loy <vincent.loy1@gmail.com>
+* Theme : Light Modern
+*/
+
+.simply-countdown {
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem; /* Gap lebih kecil untuk memastikan kesesuaian layout */
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+.simply-countdown > .simply-section {
+  width: 70px; /* Ukuran lebih proporsional untuk HP kecil */
+  height: 70px;
+  padding: 0.6rem; /* Padding yang lebih kecil */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pink);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03), 0 0 0 1px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.simply-countdown > .simply-section > div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  align-items: center;
+}
+
+.simply-countdown > .simply-section .simply-amount {
+  font-size: 3rem; /* Ukuran font lebih kecil agar nyaman dibaca */
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.simply-countdown > .simply-section .simply-word {
+  font-size: 3rem; /* Font lebih kecil untuk menghindari tumpang tindih */
+  font-weight: 500;
+  font-style: italic;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Media Query untuk Tablet */
+@media (min-width: 640px) {
+  .simply-countdown > .simply-section {
+    width: 85px;
+    height: 85px;
+    padding: 1rem; /* Padding lebih besar untuk layar tablet */
+  }
+
+  .simply-countdown > .simply-section .simply-amount {
+    font-size: 1.5rem;
+  }
+
+  .simply-countdown > .simply-section .simply-word {
+    font-size: 0.9rem;
+  }
+}
+
+/* Media Query untuk Laptop/Desktop */
+@media (min-width: 1024px) {
+  .simply-countdown > .simply-section {
+    width: 100px;
+    height: 100px;
+    padding: 1.5rem; /* Padding untuk layar besar */
+  }
+
+  .simply-countdown > .simply-section .simply-amount {
+    font-size: 1.8rem;
+  }
+
+  .simply-countdown > .simply-section .simply-word {
+    font-size: 1rem;
+  }
+}
+
+/* Media Query khusus untuk HP kecil */
+@media (max-width: 576px) {
+  .simply-countdown {
+    gap: 0.6rem; /* Mengurangi jarak antar elemen */
+  }
+
+  .simply-countdown > .simply-section {
+    width: 60px;
+    height: 60px;
+    padding: 1rem;
+  }
+
+  .simply-countdown > .simply-section .simply-amount {
+    font-size: 1rem;
+  }
+
+  .simply-countdown > .simply-section .simply-word {
+    font-size: 0.9rem;
+  }
+}
